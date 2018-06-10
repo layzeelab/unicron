@@ -1,0 +1,20 @@
+FROM ubuntu:18.04
+LABEL maintainer @layzeelab
+
+RUN apt-get update \
+	&& apt-get install -y python3 python3-pip \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install flask celery croniter pytz redis requests jsonschema \
+	pytest pytest-flake8
+
+COPY ./lib/ /var/unicron/
+COPY ./tests/ /var/tests/
+
+ENV PYTHONPATH /var/
+WORKDIR /var/
+
+CMD celery worker -A worker.celery --workdir=/var/unicron/ --loglevel=INFO &\
+	/var/unicron/scheduler.py &\
+	/var/unicron/api.py &\
+	sleep 5 && pytest --flake8

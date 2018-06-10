@@ -1,0 +1,13 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+    location / {
+        include         uwsgi_params;
+        uwsgi_pass      unix:/run/uwsgi/app.sock;
+    }
+}
