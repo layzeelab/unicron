@@ -4,10 +4,13 @@ services:
 - docker
 
 before_install:
-- ./run_tests.sh
+- docker run --name=redis-unicron -d redis:alpine
+- docker build -t unicron-test -f ./Dockerfile.tests .
+- docker run --name=unicron-test --link=redis-unicron
+  -e "UNICRON_KEY=xxxxxxxxxxxxxxxx" -e "TZ=Europe/Amsterdam"
+  -e "REDIS_HOST=redis-unicron" unicron-test
 
 install:
-- docker run --name=redis-unicron -d redis:alpine
 - docker build -t layzeelab/unicron -f ./Dockerfile .
 - docker run --name=unicron --link=redis-unicron -p 8185:80
   -e "UNICRON_KEY=xxxxxxxxxxxxxxxx" -e "TZ=Europe/Amsterdam"
