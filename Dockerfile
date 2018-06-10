@@ -7,15 +7,15 @@ RUN apt-get update \
 
 RUN pip3 install uwsgi flask celery croniter pytz redis requests jsonschema
 
-ADD ./config/nginx-default /etc/nginx/sites-available/default
+ADD config/nginx-default /etc/nginx/sites-available/default
 RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf \
 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
-COPY ./services/ /etc/service/
+COPY services/ /etc/service/
 RUN chmod +x /etc/service/*/run
 
-COPY ./lib/ /var/unicron/
+COPY lib/ /var/unicron/
 
 ENV PYTHONPATH /var/
 
