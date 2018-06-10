@@ -8,8 +8,8 @@ RUN apt-get update \
 RUN pip3 install flask celery croniter pytz redis requests jsonschema \
 	pytest pytest-flake8
 
-COPY ./lib/ /var/unicron/
-COPY ./tests/ /var/tests/
+COPY lib/ /var/unicron/
+COPY tests/ /var/tests/
 
 ENV PYTHONPATH /var/
 WORKDIR /var/

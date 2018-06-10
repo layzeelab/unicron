@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+set -e
 readonly TZ=Europe/Amsterdam
 readonly UNICRON_KEY=`openssl rand -base64 16 | md5 | head -c16`
 readonly CONTAINER=unicron-test
@@ -29,7 +30,7 @@ docker run --name=redis-$CONTAINER -d redis:alpine
 
 echo "${green}Building and starting the container...${reset}"
 
-docker build -t $CONTAINER -f ./Dockerfile.tests . && \
+docker build -t $CONTAINER -f ./Dockerfile.tests .
 docker run --name=$CONTAINER --link=redis-$CONTAINER \
 	-e "UNICRON_KEY=$UNICRON_KEY" \
 	-e "TZ=$TZ" \
