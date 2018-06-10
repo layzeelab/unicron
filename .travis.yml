@@ -1,0 +1,22 @@
+sudo: required
+
+services:
+- docker
+
+before_install:
+- ./run_tests.sh
+
+install:
+- docker run --name=redis-unicron -d redis:alpine
+- docker build -t layzeelab/unicron -f ./Dockerfile .
+- docker run --name=unicron --link=redis-unicron -p 8185:80
+  -e "UNICRON_KEY=xxxxxxxxxxxxxxxx" -e "TZ=Europe/Amsterdam"
+  -e "REDIS_HOST=redis-unicron" -d layzeelab/unicron
+- docker ps -a
+
+script:
+- curl --silent http://localhost:8185/api/ | grep Unicron
+
+notifications:
+  slack:
+    secure: UPYRC3a+2LevdY2aik5Gj/lQzaTD3/udThE8cRwG/DPvqZYJv+Z5RGEBRkilBZMVpjc3P+JxAPi1tAZq11ehPkWXmNqKKh94zK8ZihDOejxpW4qZ+Zn6tViiazzqjKwM0FSiZo35acSw0uTcFNIi+Z5q7q13HjQ5nooMe4J8J6TQYBRWdC0r9s2f0uWqbYDwpPhUCz0684YK4hG7ib0FPaZOrRc/lHrqRQ8MBZ5kJOZ4u9rD2nLmguwVRzjTHj62Y3rBobI57ytly4QVaLKpfng/ojT5hvjsfQt+XnCDVjTBcUNig0UR0Oi64+FmqT6WI+bLYwrYGkUmSBnPNcLUDynoizR0qqPMM7Cuu/8zlUN3dKjbCi23CxYkf/b6CYLIvPCxz1UNMU0ITT6uhc0rD6s+InqqaKSfxSDBxYnsoDfAM4TfYIdJOlWYdvNyi2t2ZCaP3+O49gIrfCyy/i+Fok8e8jJ3fJeS6p4gL1yIpBFvF2rD99GJhYjgg2QEdUU5c8GVjg6l1jbf82OGCfn+LlgxATSNoRZBOoxAqPNo7rlE1jLAtueYKWlZj4cqcII+Blc6Q2xAtHOxbAGqEAcl3D2XTdP8OASnQ1sF6ROngD2SkV0aDpFK2G6Ng4Wgm9ME9gSxtpFvtln7dY+X65bot6BcGiUFxzK4/kKOVL4w+/E=
