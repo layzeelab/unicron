@@ -26,18 +26,18 @@ Now you can start the first node using `layzeelab/unicron` Docker image.
 ```
 docker run --name=unicron_01 --link=redis-unicron -p 8185:80 \
   -e "UNICRON_KEY=f5f86b9c043ed03a" \
-	-e "TZ=Europe/Amsterdam" \
-	-e "REDIS_HOST=redis-unicron" \
-	-e "REDIS_PORT=6379" \
-	-e "REDIS_DB=0" \
-	-e "REDIS_PASSWORD=" \
-	-e "EMAIL_FROM=example@gmail.com" \
-	-e "SMTP_HOST=smtp.gmail.com" \
-	-e "SMTP_PORT=587" \
-	-e "SMTP_TLS=1" \
-	-e "SMTP_USER=example@gmail.com" \
-	-e "SMTP_PASSWORD=p4ssw0rd" \
-	-d layzeelab/unicron
+  -e "TZ=Europe/Amsterdam" \
+  -e "REDIS_HOST=redis-unicron" \
+  -e "REDIS_PORT=6379" \
+  -e "REDIS_DB=0" \
+  -e "REDIS_PASSWORD=" \
+  -e "EMAIL_FROM=example@gmail.com" \
+  -e "SMTP_HOST=smtp.gmail.com" \
+  -e "SMTP_PORT=587" \
+  -e "SMTP_TLS=1" \
+  -e "SMTP_USER=example@gmail.com" \
+  -e "SMTP_PASSWORD=p4ssw0rd" \
+  -d layzeelab/unicron
 ```
 You can set optional SMTP environment variables to be able to receive emails from Unicron.
 To add new nodes to the cluster you should use the same `UNICRON_KEY` and `REDIS_HOST` as the backend storage for new nodes.
