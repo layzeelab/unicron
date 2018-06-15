@@ -208,3 +208,8 @@ SUCCESS: The task executed successfully.
 
 ### Docker Image
 Docker Image is available on Docker Hub [layzeelab/unicron](https://hub.docker.com/r/layzeelab/unicron/).
+
+### License
+GNU General Public License v3.0
+
+See `LICENSE` to see the full text.
